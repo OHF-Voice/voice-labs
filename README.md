@@ -58,14 +58,38 @@ Without the integration the app still works, but satellites have no timers and
 their areas are kept by the app; intents still run, through Home Assistant's
 REST API, but can't tell an unavailable device apart.
 
-## The Home and its satellites
+## The Home, by area
 
-The **Home** page starts with a tile for each satellite -- its name, area
-and wake words -- then the **commands and skills**, grouped by what they're
-for (your own first, under **Custom**), and the **Unknown command** at the
-bottom. Type in the search box above the list to find commands and skills
-by their title, description, example sentences or keywords, and pick a
-satellite to see only what runs there.
+The **Home** page lists **Whole Home** and then each area down the side,
+grouped by floor (a select on a phone): the areas with a satellite, a device
+or something of their own, and any you add (**Add area**, from Home
+Assistant's). A dot beside each stands for each satellite there. Pick one for
+its satellites' tiles and three tabs:
+
+- **Commands**: Whole Home's are heard from every satellite, grouped by what
+  they're for (your own first, under **Custom**, the skills last, under
+  **Questions**), with the **Unknown command** at the bottom; type in the
+  search box to find them by their title, description, example sentences or
+  keywords. An area's are **its own**, heard only from satellites there,
+  then **From Whole Home**: each of the whole home's commands and skills,
+  and each group of them, with a switch to turn it off there. A satellite
+  that hears one turned off in its area says "That command isn't available
+  in the Kitchen." Where an area's own and the whole home's take the same
+  sentence, the area's own goes first there: to have a command do something
+  else in one area, duplicate it and make the copy that area's own.
+- **Names**: an area's own names ("the lights in the kitchen") and its
+  devices; Whole Home's every name heard everywhere, the devices in no area,
+  the floors and the value lists (see [Names](#names)).
+- **Settings**: Whole Home's are every setting of the app. An area may have
+  its own of some -- its thermostat, shopping list and to-do list, the
+  built-in voice, sounds and their instrument, silence to end, and **Say at
+  most** (brief, or a beep: no command there says more; a question still
+  answers) -- each the whole home's until **Change for the …**, and back
+  with **Use Whole Home's**. Whole Home's Settings say which areas have their
+  own.
+
+A satellite in an area has that area's commands and settings on top of Whole
+Home's; one in no area has Whole Home's only (and "the lights" are none).
 
 Satellites on the network are found and connected to automatically. As on
 the stock Voice PE, a satellite's ring shows when it isn't connected: solid
@@ -77,20 +101,17 @@ page:
 - **Settings**: its name, icon and area (with the integration, that is the
   area of its device in Home Assistant, and can be changed in either place),
   its music player, and how it listens and speaks. The area is what "the
-  lights" means there. The floor comes from the area.
+  lights" means there, and which area's commands and settings it has. The
+  floor comes from the area.
 - **Test it**: type a sentence as if said there, listen to it live, and
   debug it.
 
 The home's **weather entity**, **thermostat**, **shopping list** and
-**to-do list** are on the **Settings** page (Home): the library's commands
-for them use these unless one is given its own implied target (`home:
-weather`, `climate`, `shopping_list` or `todo_list` on a command). With
-neither, the satellite says "That isn't set up yet." (`not_set`).
-
-A command or skill **runs on** every satellite, on some, or on none (turned
-off), as set on its page. Where two take the same sentence, the one on some
-satellites goes first on them: to have a command do something else on one
-satellite, duplicate it, put the copy on that satellite and change it.
+**to-do list** are in Whole Home's **Settings** (Home), and an area may have
+its own thermostat and lists: the library's commands for them use these
+unless one is given its own implied target (`home: weather`, `climate`,
+`shopping_list` or `todo_list` on a command). With neither, the satellite
+says "That isn't set up yet." (`not_set`).
 
 ### Wake words
 
@@ -161,7 +182,7 @@ which answered ("answered by Kitchen VPE"), with how well each heard it.
 
 The app listens and speaks with models of its own, or with Home Assistant's
 **speech-to-text** and **text-to-speech** entities: chosen for every satellite
-on the Settings page, and under **Input** and **Output** on each satellite's
+in Settings, and under **Input** and **Output** on each satellite's
 page.
 
 - **Speech-to-text.** Commands are always matched on the satellite's audio
@@ -189,7 +210,7 @@ page.
   from where the wake word ended (as the wake word check placed it): the AEC
   capture runs 56.5 ms ahead of the AGC one, and is cut to match.
   Sound from other speakers, such as music on another player, is in both.
-  For every satellite on the Settings page, or one satellite's own under
+  For every satellite in Settings, or one satellite's own under
   Input; a session's Recognition step says which was sent.
 - **Language.** Each entity is asked in the language you pick from the ones it
   supports, or automatically in its best match for English.
@@ -202,7 +223,7 @@ page.
   call ends, and music turns down meanwhile. A command with nothing
   to say still plays its short sound on the satellite itself.
 - **Built-in voice.** Without a text-to-speech entity, replies -- and
-  announcements -- are said by Piper, in the voice picked on the Settings page:
+  announcements -- are said by Piper, in the voice picked in Settings:
   Kristin unless you pick another of Piper's US or British English voices
   (**Sample** plays the voice's recording first). A voice is downloaded the
   first time it is used, 60 to 140 MB; until then the one before speaks. For
@@ -215,7 +236,7 @@ page.
 ### End of speech
 
 A satellite stops listening once you have started speaking and then gone
-quiet long enough. **End of speech**, on the Settings page, sets how:
+quiet long enough. **End of speech**, in Settings, sets how:
 
 - **Detector**: **Silero VAD** (the default) judges 32 ms of audio at a
   time and notices the end of speech soonest. **microVAD**, microWakeWord's
@@ -290,11 +311,11 @@ Sensors, Timers and alarms, Weather -- with the ones you made from scratch
 first, under **Custom**, and the skills last, under **Questions**. A command from the library
 stays in its section when you change it, rename it or duplicate it.
 
-**Add**, on the Home page or a satellite's, adds to that place: the
+**Add**, on Whole Home's Commands or an area's, adds to that place: the
 library's commands and skills -- search them, or show one group (the same
 groups, and Questions) -- and, always at the top, a
-custom command made from scratch. On a satellite's, what it already has from
-the Home is marked. Most of the
+custom command made from scratch. What the place already has is marked.
+Most of the
 library's commands come in **versions**, for what they act on; open one
 ("Play music") to pick:
 
@@ -312,7 +333,7 @@ sentence goes to the one that takes what was said in it.
 A command added from the library **follows it**, as an automation follows
 its blueprint in Home Assistant: the library's changes reach it -- fixes,
 better keywords.
-Yours to set on its page: where it runs, how much it says, the steps when
+Yours to set on its page: where it is heard, how much it says, the steps when
 nothing matches, example sentences of your own (beside the library's), its
 implied target, and its icon. The rest is shown, not changed: **Take
 control** (at the top of its page) makes it yours to change all of it, and
@@ -333,7 +354,8 @@ all. A command has:
   miss is described: "It looks like you're trying to turn on the lights, but I
   didn't hear which room." Meaning and the model (When nothing matches) tell
   commands apart by it. Its id is made from it, and never shown.
-- **Runs on**: every satellite, some, or none (turned off).
+- **Where**: Whole Home, an area's own, or nowhere (turned off). Whole
+  Home's says which areas it is turned off in (on their Commands).
 - **Listen for**:
   - **Example sentences**, said word for word. An example always matches when
     it is heard, ahead of keyword matches -- but only as all that was said:
@@ -428,7 +450,7 @@ all. A command has:
 
   A beep is for what you can see happen. A command set to beep that acted
   somewhere else -- another area, a floor, a device in no area -- says what
-  the **Responses** panel on the Settings page says instead: the specific
+  the **Responses** panel in Settings says instead: the specific
   sentence unless you change it (Home Assistant's own says the brief one).
   The satellite's center button, pressed during a call, cancels it and what
   it is saying (the firmware's `voice_labs.cancel`). Piper says a reply a
@@ -457,14 +479,14 @@ all. A command has:
   `{outcome: nobody_home}`. An outcome without a response of its own says the
   built-in sentence (a timer's, or the script's `speech`), never the done
   one.
-- **Runs on**: every satellite, some (ticked), or none (turned off).
 - **Duplicate** (at the top of its page) makes a copy to change: to have a
-  command do something else on one satellite, put the copy on it. The copy
-  says the same example sentences and keywords; on that satellite the copy
+  command do something else in one area, make the copy that area's own. The
+  copy says the same example sentences and keywords; in that area the copy
   goes first, everywhere else the first.
 
-A command that doesn't run on a satellite is not run there: it says "It
-looks like you're trying to …, but that isn't set up here."
+A command that isn't heard in a satellite's area -- another area's own, or
+the whole home's turned off there -- is not run there: it says "That command
+isn't available in the Kitchen."
 
 ### Intents
 
@@ -472,7 +494,7 @@ A command can run one of Home Assistant's intents -- HassTurnOn, HassLightSet,
 HassClimateSetTemperature … -- instead of an action, and the library's
 commands for lights, the thermostat, covers and locks do. An intent runs on
 what was heard: each device named (by its entity id), or the devices of its
-kind added on the Names page to each area or floor named, else to the
+kind added in Names to each area or floor named, else to the
 satellite's area -- each part of its area, whether exposed to Assist
 or not. An unavailable device is said, not counted as done. Its other slots are the command's
 (`domain: light`, `brightness: "{{ slots.percentage }}"`: a template sees
@@ -504,7 +526,7 @@ area, exposed or not.
 
 The library's questions answer the same way: "are any lights on in the
 kitchen", "are the blinds open", "is everything locked" count the devices
-added there on the Names page (their templates filter by `devices`), while
+added there in Names (their templates filter by `devices`), while
 "is the desk lamp on" asks about the device named.
 
 ### What a device can do
@@ -539,7 +561,7 @@ each device can do (its supported features, color modes and modes):
 
 A device the app knows nothing of is tried anyway, and Home Assistant
 decides. The command's page warns when its implied target can't do what it
-needs, and the Settings page when the home's thermostat (or another of the
+needs, and Settings when the home's thermostat (or another of the
 home's things) can't.
 
 ### What Home Assistant gets
@@ -554,9 +576,9 @@ The action, the script and the response template all see:
 | `wake_word` | `id`, `name` and `phrase` of the wake word that started it (none each when typed) |
 | `target` | `entity_id` from the slots (a room said with a device only picks it out), else `area_id`/`floor_id`, else the satellite's area: `target: "{{ target }}"` |
 | `command` | `id`, `description`, `text` (what was heard) |
-| `place` | where it acted: `said` ("in the Kitchen", "upstairs"; empty when unknown; by the rooms' names on the Names page), `here` (only the satellite's area), `areas` (ids; a floor's every area) |
-| `names` | what each device is called when said: its name on the Names page, else Home Assistant's, by entity id -- every one named there, and the command's own: `{{ names[slots.entity[0]] }}`, or for another, `{{ names.get(e, state_attr(e, 'friendly_name')) }}` (not in the `voice_labs_command` event) |
-| `devices` | what is meant as part of an area: the devices added on the Names page and part of their area, each with its area there -- `devices.get(s.entity_id) in place.areas` (not in the `voice_labs_command` event) |
+| `place` | where it acted: `said` ("in the Kitchen", "upstairs"; empty when unknown; by the rooms' names in Names), `here` (only the satellite's area), `areas` (ids; a floor's every area) |
+| `names` | what each device is called when said: its name in Names, else Home Assistant's, by entity id -- every one named there, and the command's own: `{{ names[slots.entity[0]] }}`, or for another, `{{ names.get(e, state_attr(e, 'friendly_name')) }}` (not in the `voice_labs_command` event) |
+| `devices` | what is meant as part of an area: the devices added in Names and part of their area, each with its area there -- `devices.get(s.entity_id) in place.areas` (not in the `voice_labs_command` event) |
 | `result` | in the response only: what a script returned (`stop` with `response_variable`), plus `outcome`, `speech` (what would be said without your response) and, when it failed, `error` |
 
 A script is called with these as its data, so its fields see them. What it
@@ -756,7 +778,7 @@ in an area or floor named ("dim the lights upstairs"), or a light by name
 - **Set the color temperature**: the white a light shines, by name -- warm
   white, soft white, neutral white, cool white, daylight ("set the lights to
   warm white"). They are the `color_temperatures` list, in kelvin (2700 to
-  6500): change it on the Names page to name others.
+  6500): change it in Names to name others.
 
 These are in the English library for now. Setting the brightness, the color
 or the color temperature acts only on lights that can ("Kitchen Ceiling
@@ -765,7 +787,7 @@ can't change color."; see [What a device can do](#what-a-device-can-do)).
 ## Lists
 
 The library's **Lists** group keeps a shopping list and a to-do list: the
-home's (Settings page), or the to-do list a command is given as its implied
+home's (Settings), or the to-do list a command is given as its implied
 target:
 
 - **Add to the shopping list**: "add milk to the shopping list", "put eggs
@@ -879,7 +901,7 @@ in the bedroom?", "is the front door locked?" and "is everything locked?". The
 **Lights and switches** group answers "are any lights on (upstairs)?".
 
 - **By name** ("open the garage door", "lock the front door"): add a name for
-  the cover or lock on the Names page. A binary sensor of the lock class can
+  the cover or lock in Names. A binary sensor of the lock class can
   answer "is it locked" too (on means unlocked); type its entity id there.
 - **By type** ("close the blinds", "open the garage door", "close all the
   curtains upstairs"): no names needed. The cover's device class says what it
@@ -903,7 +925,7 @@ only by name, and "lock up" and "is everything locked" are every lock.
 ## Sensors
 
 The library's **Sensors** group (English) asks a sensor or a binary sensor by
-the name you give it on the Names page:
+the name you give it in Names:
 
 - **What a sensor says**: "what's the outside temperature", "how much is the
   dryer power", "tell me the humidity" -- "Outside Temperature is 12.5
@@ -964,12 +986,12 @@ In order, each only when the one before found nothing:
    a device, area or floor for another version of it, that version runs
    ("set bed light to green"). A session's Recognition step says so. Typed text (a
    satellite's Test it) is read as said, word for word.
-2. **Skills** (Questions, on the Home page or a satellite's): spelling,
+2. **Skills** (Questions, among Whole Home's commands): spelling,
    dates, the clock, units and arithmetic answer exactly ("what's twelve
    times eight").
 3. **Meaning**, for the commands chosen for it (below).
 4. **A small model**, for the commands chosen for it (below).
-5. **The conversation agent** (Settings page), when there is one.
+5. **The conversation agent** (Settings), when there is one.
 6. **The Unknown command** (below).
 
 Choose a command for meaning on its page with **Also sentences that mean the
@@ -1047,8 +1069,8 @@ there is none) still says why.
 
 ## Skills
 
-Skills (under **Questions** on the Home page, or a satellite's) answer
-questions no command takes, exactly and at once, without an LLM. Each is
+Skills (under **Questions**, among Whole Home's commands; an area can turn
+each off) answer questions no command takes, exactly and at once, without an LLM. Each is
 computed, never guessed -- a question a skill can't read whole is left to
 the next step:
 
@@ -1111,7 +1133,7 @@ Built-in units and holidays you haven't changed follow updates to the app.
 ## Conversation agent
 
 What no command, skill or step under "When nothing matches" took can go to a
-Home Assistant conversation agent (Settings page, "Conversation agent"): Home
+Home Assistant conversation agent (Settings, "Conversation agent"): Home
 Assistant's own, or an LLM's (OpenAI, Google, Ollama ...). Its answer is said,
 and what it doesn't understand either is the Unknown command's.
 
@@ -1133,10 +1155,15 @@ as aliases ("Echo Bee" for ecobee). Home Assistant's suggestion is its
 entity's own name (else its friendly name), and its voice assistant aliases
 -- not one that is the name again.
 
-**Devices.** Voice acts only on the devices added here -- Home Assistant's
-exposure to Assist doesn't count -- each listed under its area: Home
-Assistant's, unless you pick another for voice. A device has two lists of
-names:
+Names are on the Home page's **Names** tabs: an area's own names and its
+devices on the area's, and on Whole Home's, every name heard everywhere (to
+find one, and see which are shared), the devices in no area, the floors and
+the value lists.
+
+**Devices.** Voice acts only on the devices added -- Home Assistant's
+exposure to Assist doesn't count -- each in its area: Home Assistant's,
+unless you pick another for voice (one added on an area's Names goes there).
+A device has two lists of names:
 
 - **In its area**: heard from a satellite there ("the lamp" in the office).
   Also from other areas with the area said ("the lamp in the office"),
@@ -1152,8 +1179,8 @@ it is heard only in its area; clear both and it has no name.
 On a satellite in its area, its area's names go first: "the lamp" there is
 that lamp, even if another device's whole house name is "Lamp". Heard where
 it is no device's, or where two have it (Home Assistant moved a device into
-an area with a name it has), nothing runs and the reply says why; the Names
-page shows a name two devices share. When voice speaks of a device it uses
+an area with a name it has), nothing runs and the reply says why; Names
+shows a name two devices share. When voice speaks of a device it uses
 the name you'd use where you are: "the lamp" in the office, "the office lamp"
 elsewhere.
 
@@ -1216,8 +1243,8 @@ Everything the UI edits is in `/data`, as JSON the UI alone reads and writes:
 things). They are not for editing by hand.
 Files from before this version (`commands.yaml` and the others) are copied
 to JSON once, and left as they were. The commands, written as YAML (the file
-is JSON), look like this; each is edited on its page, and names and lists on
-the Names page. One that follows the library is saved as `from` and what
+is JSON), look like this; each is edited on its page, and names and lists in
+Names. One that follows the library is saved as `from` and what
 you set (`from: lights/turn_on_here`, `verbosity: brief`).
 
 ```yaml
@@ -1242,7 +1269,7 @@ commands:
     response: Warming up.
   lights_on:
     description: turn on the lights
-    satellites: [d83bdaa3d5f4]  # only on these; without it, on every satellite
+    off: [nursery]  # the whole home's, but in these areas; area: office makes it an area's own
     require: [[turn on, turn ... on], [light, lights]]
     names: {area: {count: 1}, floor: {count: 1}}
     combinations: [[], [area], [floor]]  # nothing named: the satellite's area
@@ -1271,6 +1298,6 @@ commands:
   Jarvis, 0.7 for Hey Mycroft). Every detection of these is verified again
   here, so it can be generous. A cutoff set on the Wake words page wins.
 - `speaker_threshold`: how closely a voice must match to be identified.
-- `silence_seconds`: silence that ends a command. **Silence to end**, on the
-  Settings page, wins.
+- `silence_seconds`: silence that ends a command. **Silence to end** in
+  Settings -- the whole home's, an area's or a satellite's -- wins.
 - `debug_logging`: verbose logs.
