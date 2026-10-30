@@ -881,8 +881,12 @@ is given as its implied target:
   inside. The thermostat is set to 70." (or the two it keeps between, in heat
   and cool mode).
 - **Set the thermostat**: "set the thermostat to 70", "turn the thermostat
-  up to 72". In heat and cool mode the thermostat keeps two temperatures, and
-  Home Assistant refuses one alone.
+  up to 72", "turn the heat up to 72". In heat and cool mode the thermostat
+  keeps two temperatures, and Home Assistant refuses one alone.
+- **Turn up the heat** and **Turn down the heat**: "turn up the heat", "turn
+  the thermostat down", "raise the temperature" -- a degree Celsius at a
+  time, two in Fahrenheit, and in heat and cool mode both ends. "Turned the
+  thermostat up to 70 degrees."; off, it says so.
 - **Ask the thermostat's mode**: "what mode is the thermostat in", "what is
   the thermostat doing" -- "The thermostat is set to heat. It's heating now."
 - **Set the thermostat's mode**: "set the thermostat to heat", "switch the
