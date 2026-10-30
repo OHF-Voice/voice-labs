@@ -82,11 +82,11 @@ its satellites' tiles and three tabs:
   the floors and the value lists (see [Names](#names)).
 - **Settings**: Whole Home's are every setting of the app. An area may have
   its own of some -- its thermostat, shopping list and to-do list, the
-  built-in voice, sounds and their instrument, silence to end, and **Say at
-  most** (brief, or a beep: no command there says more; a question still
-  answers) -- each the whole home's until **Change for the …**, and back
-  with **Use Whole Home's**. Whole Home's Settings say which areas have their
-  own.
+  built-in voice, sounds and their instrument and pitch, silence to end,
+  and **Say at most** (brief, or a beep: no command there says more; a
+  question still answers) -- each the whole home's until **Change for the
+  …**, and back with **Use Whole Home's**. Whole Home's Settings say which
+  areas have their own.
 
 A satellite in an area has that area's commands and settings on top of Whole
 Home's; one in no area has Whole Home's only (and "the lights" are none).
@@ -465,7 +465,10 @@ all. A command has:
   it says it didn't understand, couldn't, or something went wrong; and up
   the chord as your conversation agent is asked. Each plays whole, and the
   reply follows it. In the same panel, pick the **instrument** they and the
-  beep are played on -- an electric piano, or a koto -- or turn them off.
+  beep are played on -- any of the MuseScore General SoundFont's, by family,
+  an electric piano unless you choose -- and the **pitch** they start from
+  (each instrument has its own; a low one sounds better lower); **Try**
+  plays them in your browser. Or turn them off.
 
   The done response can be written once, for every level, or once for each;
   a level without one says the closest written, less before more. Timers
