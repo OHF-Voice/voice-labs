@@ -453,7 +453,9 @@ all. A command has:
   the **Responses** panel in Settings says instead: the specific
   sentence unless you change it (Home Assistant's own says the brief one).
   The satellite's center button, pressed during a call, cancels it and what
-  it is saying (the firmware's `voice_labs.cancel`). Piper says a reply a
+  it is saying (the firmware's `voice_labs.cancel`); so does **"stop"**, said
+  alone while it says a reply. Pressed with nothing to stop or pause, the
+  button starts a call: press to talk. Piper says a reply a
   sentence at a time, starting as soon as the first is ready, without the
   markdown a conversation agent writes (`**bold**`, bullets).
 
