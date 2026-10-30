@@ -67,6 +67,8 @@ class Satellites:
         self._satellites: dict[str, Satellite] = {}
         self.platform: EntityPlatform | None = None
         """The voice_timer_list platform, to add a new satellite's timers to."""
+        self.do_not_disturb: dict[str, Any] = {}
+        """Each satellite's area's do not disturb switch (switch.py), by area id."""
 
     async def async_load(self) -> None:
         data = await self._store.async_load() or {}

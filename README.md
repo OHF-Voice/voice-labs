@@ -51,6 +51,9 @@ satellite:
   own from then on.
 - a **timer list** (`voice_timer_list.<satellite>_timers`) holding its timers.
 
+and each area a satellite is in a **do not disturb** switch
+(`switch.<area>_do_not_disturb`; see [Do not disturb](#do-not-disturb)).
+
 It also runs the commands' **intents** for the app, as Assist does (see
 **Intents** below).
 
@@ -89,7 +92,9 @@ its satellites' tiles and three tabs:
   areas have their own.
 
 A satellite in an area has that area's commands and settings on top of Whole
-Home's; one in no area has Whole Home's only (and "the lights" are none).
+Home's; one in no area has Whole Home's only (and "the lights" are none). An
+area with a satellite has **Do not disturb** at the top of its page (see
+[Do not disturb](#do-not-disturb)).
 
 Satellites on the network are found and connected to automatically. As on
 the stock Voice PE, a satellite's ring shows when it isn't connected: solid
@@ -981,6 +986,34 @@ heard (`announce: "Dinner is ready"`, `announce: "{{ slots.message }}"`), and
 connect the intercom (`intercom: connect`, with an area to listen for). Both
 need the satellites' firmware to be recent: the intercom says so when it
 isn't. Announcements are said in each satellite's voice.
+
+## Do not disturb
+
+Each area with a satellite has a **Do not disturb** switch: at the top of the
+area's page, and in Home Assistant (`switch.bedroom_do_not_disturb`, in the
+area) for automations -- on with a Schedule helper for bedtime, say. On, what
+other areas send there is kept out:
+
+- **Announcements** are said everywhere else, and the satellite that
+  announced says so: "Announced it everywhere. Do not disturb is on in the
+  Bedroom." With nowhere else to say it: "Do not disturb is on in the
+  Bedroom."
+- The **intercom** doesn't connect there.
+- **Music** doesn't start, move there, resume, skip or get louder there.
+  Pausing, stopping, turning it down and muting still work, from anywhere.
+
+What is said in the area itself still works there: its satellite announces,
+calls, plays music and answers as always, and its timers and alarms ring.
+
+A command of your own keeps out too when ticked **Kept out of areas on do not
+disturb** on its page (`do_not_disturb: true`), by the area or floor it acts
+in; an announcement, call or music command unticked
+(`do_not_disturb: false`) gets through. Kept out, it says "Do not disturb is
+on in the Bedroom." unless it has its own response (`do_not_disturb`).
+
+The switch comes with the first satellite in an area and goes with the last,
+and keeps its state across restarts. It needs this integration up to date:
+with an older one, nothing is kept out.
 
 ## When nothing matches
 

@@ -18,6 +18,10 @@ The app runs Home Assistant's intents through it (``voice_labs/intent/handle``)
 as Assist does -- only on entities exposed to Assist, unless the app names
 the device itself -- on behalf of a satellite, and reads which entities are
 exposed (``voice_labs/exposed``) for the questions it answers itself.
+
+Each area a satellite is in has a do not disturb switch (switch.py); the app
+asks which are on (``voice_labs/do_not_disturb``) before sending an
+announcement, a call or music there.
 """
 
 from __future__ import annotations
@@ -27,7 +31,7 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant.components import websocket_api
-from homeassistant.const import STATE_UNAVAILABLE
+from homeassistant.const import STATE_UNAVAILABLE, Platform
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import TemplateError
 from homeassistant.helpers import config_validation as cv, intent, template
@@ -36,10 +40,12 @@ from homeassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN
 from .satellites import Satellites, VoiceLabsConfigEntry
+from .switch import describe as describe_switches
 from .timer_list import async_setup_timer_lists
 from .timer_list_const import DATA_COMPONENT
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+PLATFORMS = [Platform.SWITCH]
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
@@ -49,20 +55,27 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     websocket_api.async_register_command(hass, websocket_list_satellites)
     websocket_api.async_register_command(hass, websocket_handle_intent)
     websocket_api.async_register_command(hass, websocket_exposed)
+    websocket_api.async_register_command(hass, websocket_do_not_disturb)
     return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: VoiceLabsConfigEntry) -> bool:
-    """Set up the satellites and their timer lists."""
+    """Set up the satellites, their timer lists and their areas' do not
+    disturb switches."""
     satellites = Satellites(hass, entry)
     await satellites.async_load()
     entry.runtime_data = satellites
     # Loads this integration's voice_timer_list platform for the entry.
-    return await hass.data[DATA_COMPONENT].async_setup_entry(entry)
+    if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
+        return False
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    return True
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: VoiceLabsConfigEntry) -> bool:
-    """Unload the timer lists. Their timers are lost."""
+    """Unload the timer lists (their timers are lost) and the switches."""
+    if not await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
+        return False
     return await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
@@ -218,3 +231,17 @@ def websocket_exposed(
         msg["id"],
         {"entities": sorted(e for e in hass.states.async_entity_ids() if async_should_expose(hass, ASSISTANT, e))},
     )
+
+
+@websocket_api.websocket_command({vol.Required("type"): "voice_labs/do_not_disturb"})
+@websocket_api.require_admin
+@callback
+def websocket_do_not_disturb(
+    hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+) -> None:
+    """Each satellite's area's do not disturb switch, and whether it is on."""
+    satellites = _satellites(hass)
+    if satellites is None:
+        connection.send_error(msg["id"], "not_loaded", "Voice Labs is not set up")
+        return
+    connection.send_result(msg["id"], {"areas": describe_switches(satellites.do_not_disturb)})
