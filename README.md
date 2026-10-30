@@ -719,7 +719,8 @@ library's **Music** group:
   ("play chill music" may be the Chill playlist). "Play some jazz", without
   "music", is a search: the closest name wins.
 - "pause", "resume", "stop the music", "next", "go back", "louder", "set the
-  volume to 30 percent", "mute", "shuffle", "repeat", "what's playing".
+  volume to 30 percent" (or "turn the TV up to 50"), "mute", "shuffle",
+  "repeat", "what's playing".
 - Pausing, skipping, the volume and muting work on **any media player**, not
   only Music Assistant's: with nothing named, whatever plays in the
   satellite's area -- its own music first, then another of Music Assistant's
@@ -731,7 +732,8 @@ library's **Music** group:
   says so ("TV can't be set to a volume."). The words are the `media_kinds`
   list.
 - **The satellite's own volume** (the **Satellites** group) -- what its dial sets: "turn yourself up",
-  "speak up", "talk quieter", "set your volume to 40 percent". Commands see
+  "speak up", "talk quieter", "set your volume to 40 percent", "turn yourself
+  down to 20". Commands see
   its speaker as `satellite.device_media_player`.
 - "move the music to the kitchen", "move the music upstairs", "send the music
   to the office speaker": what plays here -- the satellite's own player, else
