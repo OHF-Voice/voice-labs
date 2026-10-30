@@ -775,11 +775,14 @@ brightness and color, each in the satellite's area ("turn on the lights"),
 in an area or floor named ("dim the lights upstairs"), or a light by name
 ("set the bed light to red"):
 
-- **Brighter** and **Dimmer**: a fifth at a time ("make the lights
+- **Brighter** and **Dimmer**: 30 percent at a time ("make the lights
   brighter", "turn the lights down", "dim the bed light", "brighter"),
   never down to off. In an area, only the lights that are on change, of
   those added there and able to dim; a light by name that is off comes
   on to be brightened. With none on, the satellite says so.
+- **Set the brightness**: to a percentage, also turned on, up or down,
+  brightened or dimmed to it ("set the lights to 50", "dim the lights to
+  20", "turn on the kitchen lights to 50 percent").
 - **Set the color temperature**: the white a light shines, by name -- warm
   white, soft white, neutral white, cool white, daylight ("set the lights to
   warm white"). They are the `color_temperatures` list, in kelvin (2700 to
