@@ -1123,7 +1123,8 @@ the next step:
 
 - **Spelling**: "how do you spell necessary".
 - **Dates**: "what day is Christmas", "is 2028 a leap year", "how many days
-  until Halloween".
+  until Halloween", "is today Halloween", "is it Christmas tomorrow", "is
+  today a holiday".
 - **Time from now**: "what time will it be in 45 minutes", "how long until
   5 pm".
 - **Unit conversions**: "how many cups in a quart", "100 Fahrenheit in
